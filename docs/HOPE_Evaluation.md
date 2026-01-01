@@ -1,0 +1,3 @@
+# HOPE_Evaluation
+
+(TODO) Filled from canonical write-up in chat; see commit history.
