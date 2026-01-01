@@ -1,0 +1,11 @@
+{
+  "fields": [
+    "root_message",
+    "participants",
+    "forked_from",
+    "merge_of"
+  ],
+  "notes": "Thread container with fork/merge lineage.",
+  "protocol": "Thread",
+  "version": "0"
+}

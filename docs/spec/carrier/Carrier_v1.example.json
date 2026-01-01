@@ -1,0 +1,53 @@
+{
+  "carrier_version": "1",
+  "payload": {
+    "...": "..."
+  },
+  "policy_context": {
+    "community": "news:<id>|topic:<id>",
+    "labels": [
+      "public",
+      "needs_review",
+      "contains_pii:false"
+    ],
+    "ruleset_ref": "hash://blake3/<policy-hash>",
+    "tenant": "commons|org:<id>|team:<id>"
+  },
+  "protocol_ref": "hash://blake3/<protocol-hash>",
+  "provenance": {
+    "emitter": {
+      "device_attestation": "optional",
+      "id": "did:key:...",
+      "kind": "human|agent|service"
+    },
+    "inputs": [
+      "hash://..."
+    ],
+    "signatures": [
+      {
+        "alg": "ed25519",
+        "covers": "hash://blake3/<canonical-carrier-hash>",
+        "sig": "base64..."
+      }
+    ],
+    "transforms": [
+      {
+        "notes": "optional",
+        "receptor_id": "did:key:...",
+        "ts": "..."
+      }
+    ]
+  },
+  "signal": {
+    "derived_from": [
+      "hash://..."
+    ],
+    "id": "hash://blake3/<signal-hash>",
+    "parents": [
+      "hash://..."
+    ],
+    "thread_root": "hash://...",
+    "ts": "2025-12-26T22:14:00Z",
+    "type": "MessagePosted|ClaimAsserted|CitationAdded|ModerationAction|..."
+  }
+}

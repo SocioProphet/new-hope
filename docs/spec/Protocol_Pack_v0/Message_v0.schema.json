@@ -1,0 +1,15 @@
+{
+  "fields": [
+    "text",
+    "media",
+    "mentions",
+    "links",
+    "thread_root",
+    "reply_to",
+    "language",
+    "visibility"
+  ],
+  "notes": "First-class messaging object.",
+  "protocol": "Message",
+  "version": "0"
+}

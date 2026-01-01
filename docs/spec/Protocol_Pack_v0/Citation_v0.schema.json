@@ -1,0 +1,13 @@
+{
+  "fields": [
+    "url",
+    "retrieved_at",
+    "content_hash",
+    "excerpt_hash",
+    "archive_ptr",
+    "source_quality_signals"
+  ],
+  "notes": "Citation with snapshot + excerpt identity.",
+  "protocol": "Citation",
+  "version": "0"
+}

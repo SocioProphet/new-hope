@@ -1,0 +1,14 @@
+{
+  "fields": [
+    "claim_text",
+    "stance",
+    "scope",
+    "confidence",
+    "calibration_ref",
+    "evidence",
+    "counterclaims"
+  ],
+  "notes": "Atomic claim with stance and evidence.",
+  "protocol": "Claim",
+  "version": "0"
+}

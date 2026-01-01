@@ -1,73 +1,52 @@
 # History
 
-## Where this started
+## Origins: HOPE as a lineage, not a myth
 
-We went looking for the original **HOPE (Higher Order Programming Environment)** work — both the implementation and the closest thing to a “spec.” What we found wasn’t a single RFC-style document, but a *distributed specification* spread across:
+We went looking for the original **HOPE (Higher Order Programming Environment)** work—both the implementation and the closest thing to a specification. What we found was not a single RFC-style document, but a *distributed spec* spread across:
 
-- Marc Clifton’s explanatory blog posts (motivation + conceptual framing)
+- Marc Clifton’s blog posts (motivation + conceptual framing)
 - the CodeProject article series (architecture published in a spec-like format)
 - the HOPE GitHub repository (the executable spec: interfaces, routing logic, examples)
 
-Together, those sources capture HOPE’s core claim: computation can operate on **meaning-bearing structures** flowing through a semantic runtime, not just raw values through functions.
+Together, those sources capture HOPE’s core claim: computation should move through a **semantic runtime** as meaning-bearing structures, not as raw values threaded through ad-hoc glue.
 
-## What HOPE is (in plain terms)
+## What HOPE contributed (atoms worth preserving)
 
-HOPE presents a semantic computation environment with a small set of primitives:
+HOPE’s primitives still map cleanly to modern agentic composition:
 
-- **Semantic Types**  
-  Data structures that carry explicit meaning, not just shape.
+- **Semantic Types** — meaning-bearing structures, not just schemas.
+- **Carriers** — typed envelopes moving through a routed runtime.
+- **Receptors** — composable behaviors (proto-agent modules).
+- **Membranes** — boundaries between behaviors (routing in HOPE; enforcement in New Hope).
+- **Finite Automata** — workflows as formal state machines (replay + testability).
+- **Semantic Database** — storage as a participant receptor, not a separate kingdom.
 
-- **Receptors**  
-  Plug-in computational modules that accept semantic input and emit semantic output. Systems are built as networks of behaviors.
+## Why this becomes New Hope (the missing bones)
 
-- **Carriers**  
-  Typed envelopes that move between receptors — payload plus routing/processing context.
+HOPE’s atoms are correct, but a 2025+ knowledge commons cannot survive on routing elegance alone. The environment must make these properties **mandatory**:
 
-- **Membranes**  
-  Boundaries between receptors (or groups of receptors) controlling how carriers move.
+- **Provenance is mandatory**: content-addressing + signatures as the precondition for attribution, audit, replay, appeals, and federation.
+- **Membranes are enforcement points**: minimization/redaction, quotas, capability gating, tenant isolation, and controlled egress.
+- **Nondeterminism is explicit**: stochastic components must declare themselves and emit traceable metadata.
+- **News + messaging are protocol-native**: threads, claims, citations, stances, lenses, moderation, and appeals are first-class objects.
+- **Replay is a conformance requirement**: deterministic components must replay; nondeterministic components must be bounded and explainable.
 
-- **Semantic Database**  
-  A persistence/query layer intended to store semantic structures as first-class objects.
+## TritRPC as the wire lineage we align to
 
-From a modern perspective, HOPE got something rare and important right: it made “agentic composition” feel like a runtime design problem instead of a glue-code swamp.
+New Hope’s “Carrier” is a logical envelope concept. Where we need canonical bytes for hashing/signing/transport, we align to **TritRPC**’s envelope framing model:
 
-## The primary source trail (the “distributed spec”)
+- routing metadata (SERVICE + METHOD)
+- optional AUX structures (Trace, signatures placeholders, proofs)
+- authenticated encryption lane (AEAD) and canonical encoding discipline
 
-- CodeProject: HOPE — Higher Order Programming Environment  
-  https://www.codeproject.com/Articles/777843/HOPE-Higher-Order-Programming-Environment  
-  Repo referenced: https://github.com/cliftonm/HOPE
+That alignment is documented in `docs/Carrier_Wire_Format_TritRPC.md`, with New Hope’s semantic carrier mapped onto TritRPC’s envelope regions.
 
-- Blog: Semantic Database — Concept, Architecture and Implementation  
-  https://marcclifton.wordpress.com/2014/10/25/semantic-database-concept-architecture-and-implementation/
+## Repository map (what this repo asserts)
 
-- CodeProject: The Semantic Database in Action  
-  https://www.codeproject.com/Articles/837878/The-Semantic-Database-In-Action
-
-- Blog: Higher Order Programming on the Web is Alive  
-  https://marcclifton.wordpress.com/2017/12/09/higher-order-programming-on-the-web-is-alive/
-
-In practice: the CodeProject articles provide the narrative “spec,” while the GitHub code provides the normative truth of interfaces and behaviors.
-
-## Why this becomes New Hope
-
-HOPE’s primitives are the right atoms — but the world changed. A 2025+ knowledge commons and agentic runtime can’t survive on routing elegance alone. It needs **enforcement-grade trust and governance** as first-class semantics.
-
-So “New Hope” is a continuation with missing bones added:
-
-- **Provenance is mandatory**  
-  Content-addressing and signatures are prerequisites for attribution, audit, replay, appeals, and federation.
-
-- **Membranes become enforcement points**  
-  Not just routing boundaries, but policy evaluators: minimization/redaction, rate limits, capability gating, tenant isolation, controlled egress.
-
-- **Nondeterminism is modeled explicitly**  
-  Modern systems include stochastic components (LLMs, retrieval, tool calls). If nondeterminism is not first-class, replay becomes theater.
-
-- **News + messaging primitives are native**  
-  Threads, claims, citations, stances, moderation actions, and ranking transparency must be protocol objects, not app-only features.
-
-- **Replay is a conformance requirement**  
-  Deterministic components must replay; nondeterministic components must be traceable and bounded.
-
-New Hope keeps HOPE’s compositional semantic runtime, but upgrades it into a commons-grade substrate where trust, governance, and auditability are part of the runtime contract.
-
+- `docs/New_Hope_Spec_v0.2.md` — normative objects and minimum requirements
+- `docs/Carrier_Wire_Format.md` — New Hope logical carrier example
+- `docs/Carrier_Wire_Format_TritRPC.md` — TritRPC-aligned envelope mapping
+- `docs/Protocol_Pack_v0.md` + `docs/spec/Protocol_Pack_v0/*.json` — protocol objects as files
+- `docs/Conformance_Tests.md` + `docs/spec/conformance/*.json` — test definitions as files
+- `docs/Mapping_HOPE_to_NewHope.md` — lineage-preserving mapping
+- `docs/Roadmap.md` — hardening steps (canonicalization RFC, membrane decision model, harness)

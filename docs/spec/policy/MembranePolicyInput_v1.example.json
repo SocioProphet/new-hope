@@ -1,0 +1,30 @@
+{
+  "carrier": {
+    "$ref": "../carrier/Carrier_v1.example.json"
+  },
+  "context": {
+    "community": "news:world",
+    "ruleset_ref": "hash://..."
+  },
+  "resources": {
+    "egress_domains": [
+      "..."
+    ],
+    "model": "local-llm:..."
+  },
+  "sender": {
+    "id": "did:key:...",
+    "reputation": 0.73,
+    "roles": [
+      "member",
+      "mod"
+    ]
+  },
+  "target": {
+    "capabilities": [
+      "model_call",
+      "net"
+    ],
+    "receptor_id": "did:key:..."
+  }
+}

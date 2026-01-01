@@ -1,0 +1,12 @@
+{
+  "fields": [
+    "action",
+    "reason_code",
+    "policy_ref",
+    "appeal_state",
+    "review_signatures"
+  ],
+  "notes": "Moderation action + appeals + human signatures.",
+  "protocol": "ModerationEvent",
+  "version": "0"
+}

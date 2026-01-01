@@ -1,0 +1,12 @@
+{
+  "fields": [
+    "canonical_name",
+    "aliases",
+    "type",
+    "evidence_edges",
+    "resolution_proof"
+  ],
+  "notes": "Entity resolution object with proof.",
+  "protocol": "Entity",
+  "version": "0"
+}

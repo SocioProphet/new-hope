@@ -1,0 +1,11 @@
+{
+  "expected_outputs": [
+    "hash://..."
+  ],
+  "inputs": [
+    "hash://..."
+  ],
+  "notes": "Reference harness spec TBD.",
+  "requirement": "Deterministic receptors reproduce identical outputs given identical inputs.",
+  "test": "Replay"
+}

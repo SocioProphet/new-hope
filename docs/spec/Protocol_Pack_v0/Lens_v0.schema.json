@@ -1,0 +1,10 @@
+{
+  "fields": [
+    "pipeline",
+    "inputs",
+    "outputs"
+  ],
+  "notes": "Reusable filter/ranking pipeline with explainability requirements.",
+  "protocol": "Lens",
+  "version": "0"
+}
