@@ -13,4 +13,4 @@ New Hope is a Higher-Order Semantic Runtime for agentic commons (news + messagin
 
 ## Status
 
-Spec is being reconstructed into repo-native docs to avoid paste truncation.
+Spec is being reconstructed into repo-native docs in paste-safe chunks.
