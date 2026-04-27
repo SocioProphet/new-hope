@@ -1,0 +1,30 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v1",
+  "kind": "CarrierFixture",
+  "metadata": {
+    "name": "lattice-platform-asset-runtime",
+    "version": "0.1.0"
+  },
+  "carrier": {
+    "carrierKind": "PlatformAssetRecordCarrier",
+    "entityId": "runtime-asset:prophet-python-ml:0.1.0",
+    "sourceRecordKind": "PlatformAssetRecord",
+    "citationSource": "SocioProphet/lattice-forge",
+    "lensCandidates": ["jupyter", "ray", "beam", "agentplane", "sourceos-user", "prophet-platform"],
+    "claims": [
+      {"claimKind": "assetKind", "value": "runtime-asset"},
+      {"claimKind": "promotionChannel", "value": "dev"},
+      {"claimKind": "policySubjectClass", "value": "RuntimePolicySubject"},
+      {"claimKind": "contractSubjectClass", "value": "RuntimeContractReferencedAsset"}
+    ]
+  },
+  "membrane": {
+    "status": "candidate",
+    "questions": [
+      "Is this runtime allowed for this project or organization?",
+      "Which policy evidence justifies its visibility?",
+      "Which contract or release lifecycle state constrains usage?"
+    ],
+    "requiredEvidence": ["PlatformAssetRecord", "PlatformAssetRecordEnrichment"]
+  }
+}
