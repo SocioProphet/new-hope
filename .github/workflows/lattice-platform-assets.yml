@@ -19,3 +19,7 @@ jobs:
           python-version: "3.11"
       - name: Validate Lattice carrier fixtures
         run: python scripts/validate_lattice_carriers.py
+      - name: Replay Lattice membrane fixture
+        run: python scripts/replay_lattice_membrane.py fixtures/lattice/platform-asset-carrier.v1.json --output lattice-membrane-replay.json
+      - name: Validate Lattice membrane replay report
+        run: python scripts/validate_lattice_membrane_replay.py lattice-membrane-replay.json
