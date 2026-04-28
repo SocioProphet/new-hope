@@ -1,0 +1,67 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "CarrierFixture",
+  "metadata": {
+    "fixtureId": "carrier-fixture:lattice-studio-workspace-synthesis:v0",
+    "name": "Lattice Studio Workspace Synthesis Carrier",
+    "version": "0.1.0",
+    "producerRepo": "SocioProphet/new-hope"
+  },
+  "carrier": {
+    "carrierKind": "PlatformAssetRecordCarrier",
+    "entityId": "workspace-synthesis:demo000000000001",
+    "sourceKind": "WorkspaceSynthesisArtifact",
+    "citationSource": "SocioProphet/prophet-platform",
+    "policyRef": "policy://workspace/demo",
+    "evidenceCorrelationId": "workspace-synthesis:demo000000000001",
+    "lensCandidates": [
+      "lattice-studio",
+      "prophet-workspace",
+      "prophet-platform",
+      "source-grounded-synthesis",
+      "workspace-publication",
+      "evidence-bundle"
+    ],
+    "claims": [
+      {
+        "claimId": "claim:source-set",
+        "text": "The workspace source set contains a governed document, spreadsheet, and slide deck bound into one Lattice Studio session.",
+        "sourceIds": [
+          "workspace-source:docs/demo-brief",
+          "workspace-source:sheets/demo-dataset",
+          "workspace-source:slides/demo-report"
+        ]
+      }
+    ],
+    "citations": [
+      {"citationId": "citation:docs/demo-brief", "sourceId": "workspace-source:docs/demo-brief"},
+      {"citationId": "citation:sheets/demo-dataset", "sourceId": "workspace-source:sheets/demo-dataset"},
+      {"citationId": "citation:slides/demo-report", "sourceId": "workspace-source:slides/demo-report"}
+    ]
+  },
+  "membrane": {
+    "status": "source-grounding-candidate",
+    "questions": [
+      "Is the workspace synthesis allowed to be discoverable for this user/project/org scope?",
+      "Are all referenced workspace sources visible under the active policy?",
+      "Does the publication receipt preserve evidence correlation and output digest?",
+      "Can this synthesis be replayed from its NotebookSession and RuntimeAsset?"
+    ],
+    "requiredChecks": [
+      "policyRef-present",
+      "evidenceCorrelationId-present",
+      "sourceIds-bound-to-session",
+      "outputDigest-present",
+      "canonical-platform-record-preserved"
+    ],
+    "defaultDecision": "candidate-review-required"
+  },
+  "topics": [
+    "/lattice/studio",
+    "/workspace/synthesis",
+    "/source-grounded-synthesis",
+    "/workspace/publication",
+    "/evidence",
+    "/governance"
+  ]
+}
