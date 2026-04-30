@@ -1,0 +1,58 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "DryRunQueryFixture",
+  "metadata": {
+    "name": "moderation-event-query-dry-run",
+    "concept": "ModerationEvent",
+    "operation": "query.moderation_event",
+    "version": "0.1.0"
+  },
+  "request": {
+    "adapter": "newhope-membrane-query",
+    "adapter_version": "0.1.0",
+    "operation": "query.moderation_event",
+    "query_id": "modevent-query-dry-run-0001",
+    "dry_run": true,
+    "filter": {
+      "concept": "ModerationEvent",
+      "predicates": [
+        {"field": "action", "op": "eq", "value": "remove"},
+        {"field": "appeal_state", "op": "eq", "value": "pending"},
+        {"field": "ts_range", "op": "gte", "value": "2026-01-01T00:00:00Z"}
+      ],
+      "limit": 10,
+      "cursor": null
+    },
+    "policy_context": {
+      "tenant": "commons",
+      "community": "news:world",
+      "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "provenance": {
+      "requester_id": "did:key:z6MkModeratorDid",
+      "requester_kind": "human",
+      "request_ts": "2026-04-01T00:00:00Z",
+      "purpose_code": "moderation",
+      "session_ref": null
+    }
+  },
+  "expected_route": {
+    "eligible": true,
+    "receptors": [
+      {
+        "receptor_id": "did:key:z6MkModerationQueryReceptor",
+        "receptor_kind": "ModerationEventQueryReceptor",
+        "membrane_gate": "did:key:z6MkModerationMembraneGate",
+        "policy_match": true
+      }
+    ],
+    "denial_reasons": []
+  },
+  "expected_membrane_decision": {
+    "decision": "dry-run",
+    "rationale": "Dry-run evaluation only; moderator role verified. Appeal-state changes require an additional review signature for live execution.",
+    "redacted_fields": [],
+    "required_signatures": ["did:key:z6MkReviewerDid"]
+  },
+  "notes": "The moderator DID (z6MkModeratorDid) must hold the moderator role in the ruleset. Appeal-state changes additionally require a reviewer signature gate."
+}

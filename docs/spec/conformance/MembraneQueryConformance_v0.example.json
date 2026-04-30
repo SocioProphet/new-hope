@@ -1,0 +1,394 @@
+{
+  "schema": "MembraneQueryConformance",
+  "version": "0",
+  "description": "Conformance fixtures for the newhope-membrane-query Lattice adapter. Each test case exercises one or more of the CQ-0x checks defined in docs/Lattice_Membrane_Query_Adapter.md §9.",
+  "test_cases": [
+    {
+      "id": "CQ-01",
+      "description": "Dry-run is side-effect-free and deterministic: identical inputs produce identical DryRunRoute.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.message",
+        "query_id": "00000000-0000-0000-0000-000000000001",
+        "dry_run": true,
+        "filter": {
+          "concept": "Message",
+          "predicates": [{"field": "visibility", "op": "eq", "value": "public"}],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "commons",
+          "community": "news:world",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "provenance": {
+          "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "requester_kind": "agent",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000001",
+        "dry_run": true,
+        "route": {
+          "eligible": true,
+          "receptors": [
+            {
+              "receptor_id": "did:key:z6MkMessageQueryReceptor",
+              "receptor_kind": "MessageQueryReceptor",
+              "membrane_gate": "did:key:z6MkDefaultMembraneGate",
+              "policy_match": true
+            }
+          ],
+          "denial_reasons": []
+        },
+        "evidence": {
+          "policy_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "matching_labels": ["public"],
+          "provenance_chain": ["hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+        },
+        "membrane_decision": {
+          "decision": "dry-run",
+          "rationale": "Dry-run evaluation only; no live data accessed.",
+          "redacted_fields": [],
+          "required_signatures": []
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    },
+    {
+      "id": "CQ-02",
+      "description": "Policy ref must be content-addressed (hash://blake3/...). Invalid refs are rejected.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.claim",
+        "query_id": "00000000-0000-0000-0000-000000000002",
+        "dry_run": true,
+        "filter": {
+          "concept": "Claim",
+          "predicates": [],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "org:acme",
+          "ruleset_ref": "not-a-content-hash"
+        },
+        "provenance": {
+          "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "requester_kind": "agent",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000002",
+        "dry_run": true,
+        "route": {
+          "eligible": false,
+          "receptors": [],
+          "denial_reasons": [
+            {
+              "code": "invalid-ruleset-ref",
+              "detail": "policy_context.ruleset_ref must match pattern hash://blake3/<64-hex-chars>."
+            }
+          ]
+        },
+        "evidence": {
+          "policy_ref": "",
+          "ruleset_ref": "",
+          "matching_labels": [],
+          "provenance_chain": []
+        },
+        "membrane_decision": {
+          "decision": "deny",
+          "rationale": "Ruleset reference is not content-addressed; query rejected before membrane evaluation.",
+          "redacted_fields": [],
+          "required_signatures": []
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    },
+    {
+      "id": "CQ-03",
+      "description": "Provenance requester_id must be a DID. Non-DID identifiers are rejected.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.entity",
+        "query_id": "00000000-0000-0000-0000-000000000003",
+        "dry_run": true,
+        "filter": {
+          "concept": "Entity",
+          "predicates": [],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "commons",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "provenance": {
+          "requester_id": "not-a-did",
+          "requester_kind": "agent",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000003",
+        "dry_run": true,
+        "route": {
+          "eligible": false,
+          "receptors": [],
+          "denial_reasons": [
+            {
+              "code": "invalid-requester-id",
+              "detail": "provenance.requester_id must match pattern did:<method>:<id>."
+            }
+          ]
+        },
+        "evidence": {
+          "policy_ref": "",
+          "ruleset_ref": "",
+          "matching_labels": [],
+          "provenance_chain": []
+        },
+        "membrane_decision": {
+          "decision": "deny",
+          "rationale": "Requester identity is not a valid DID; query rejected before membrane evaluation.",
+          "redacted_fields": [],
+          "required_signatures": []
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    },
+    {
+      "id": "CQ-04",
+      "description": "Cross-tenant query without federation agreement is denied.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.message",
+        "query_id": "00000000-0000-0000-0000-000000000004",
+        "dry_run": true,
+        "filter": {
+          "concept": "Message",
+          "predicates": [{"field": "tenant", "op": "eq", "value": "org:other-org"}],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "org:acme",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "provenance": {
+          "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "requester_kind": "agent",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000004",
+        "dry_run": true,
+        "route": {
+          "eligible": false,
+          "receptors": [],
+          "denial_reasons": [
+            {
+              "code": "cross-tenant-denied",
+              "detail": "Query crosses tenant boundary (org:acme → org:other-org) without an active federation agreement."
+            }
+          ]
+        },
+        "evidence": {
+          "policy_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "matching_labels": [],
+          "provenance_chain": []
+        },
+        "membrane_decision": {
+          "decision": "deny",
+          "rationale": "Cross-tenant data access requires an explicit federation agreement in the ruleset.",
+          "redacted_fields": [],
+          "required_signatures": []
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    },
+    {
+      "id": "CQ-05",
+      "description": "Every request (dry-run or live) produces a MembraneDecision carrier in the audit log.",
+      "notes": "This is a behavioural assertion verified by inspecting the adapter audit log after the request in CQ-01 is processed. The audit carrier must have decision='dry-run' and reference query_id 00000000-0000-0000-0000-000000000001.",
+      "expected_audit_carrier": {
+        "carrier_version": "1",
+        "protocol_ref": "hash://blake3/<MembraneDecision_v0-protocol-hash>",
+        "signal": {
+          "type": "MembraneDecisionRecorded",
+          "ts": "2026-01-01T00:00:01Z",
+          "id": "hash://blake3/<audit-signal-hash>",
+          "parents": [],
+          "thread_root": null,
+          "derived_from": ["hash://blake3/<query-carrier-hash>"]
+        },
+        "payload": {
+          "decision": "dry-run",
+          "query_ref": "00000000-0000-0000-0000-000000000001",
+          "policy_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "rationale": "Dry-run evaluation only; no live data accessed.",
+          "redacted_fields": [],
+          "required_signatures": [],
+          "audit_trail": []
+        },
+        "provenance": {
+          "emitter": {
+            "kind": "service",
+            "id": "did:key:z6MkDefaultMembraneGate",
+            "device_attestation": null
+          },
+          "signatures": [
+            {
+              "alg": "ed25519",
+              "sig": "base64...",
+              "covers": "hash://blake3/<canonical-carrier-hash>"
+            }
+          ],
+          "inputs": ["hash://blake3/<query-carrier-hash>"],
+          "transforms": []
+        },
+        "policy_context": {
+          "tenant": "commons",
+          "community": "news:world",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "labels": ["dry-run", "audit"]
+        }
+      }
+    },
+    {
+      "id": "CQ-06",
+      "description": "query.moderation_event requires moderator or audit role; requester without role is denied.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.moderation_event",
+        "query_id": "00000000-0000-0000-0000-000000000006",
+        "dry_run": true,
+        "filter": {
+          "concept": "ModerationEvent",
+          "predicates": [],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "commons",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "provenance": {
+          "requester_id": "did:key:z6MkMemberNoMod",
+          "requester_kind": "human",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000006",
+        "dry_run": true,
+        "route": {
+          "eligible": false,
+          "receptors": [],
+          "denial_reasons": [
+            {
+              "code": "insufficient-role",
+              "detail": "query.moderation_event requires role moderator or audit. Requester did:key:z6MkMemberNoMod has neither."
+            }
+          ]
+        },
+        "evidence": {
+          "policy_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "matching_labels": [],
+          "provenance_chain": []
+        },
+        "membrane_decision": {
+          "decision": "deny",
+          "rationale": "Requester lacks required role (moderator|audit) to access ModerationEvent records.",
+          "redacted_fields": [],
+          "required_signatures": ["did:key:z6MkModeratorOrAuditor"]
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    },
+    {
+      "id": "CQ-07",
+      "description": "Concept and operation must be aligned. Mismatched pairs are rejected.",
+      "input": {
+        "adapter": "newhope-membrane-query",
+        "adapter_version": "0.1.0",
+        "operation": "query.claim",
+        "query_id": "00000000-0000-0000-0000-000000000007",
+        "dry_run": true,
+        "filter": {
+          "concept": "Message",
+          "predicates": [],
+          "limit": 10,
+          "cursor": null
+        },
+        "policy_context": {
+          "tenant": "commons",
+          "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "provenance": {
+          "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+          "requester_kind": "agent",
+          "request_ts": "2026-01-01T00:00:00Z",
+          "purpose_code": "search",
+          "session_ref": null
+        }
+      },
+      "expected_output": {
+        "adapter": "newhope-membrane-query",
+        "query_id": "00000000-0000-0000-0000-000000000007",
+        "dry_run": true,
+        "route": {
+          "eligible": false,
+          "receptors": [],
+          "denial_reasons": [
+            {
+              "code": "concept-operation-mismatch",
+              "detail": "operation query.claim implies concept Claim but filter.concept is Message."
+            }
+          ]
+        },
+        "evidence": {
+          "policy_ref": "",
+          "ruleset_ref": "",
+          "matching_labels": [],
+          "provenance_chain": []
+        },
+        "membrane_decision": {
+          "decision": "deny",
+          "rationale": "filter.concept does not match the concept implied by operation; query rejected.",
+          "redacted_fields": [],
+          "required_signatures": []
+        },
+        "ts": "2026-01-01T00:00:01Z"
+      }
+    }
+  ]
+}

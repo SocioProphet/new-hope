@@ -1,0 +1,56 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "DryRunQueryFixture",
+  "metadata": {
+    "name": "thread-query-dry-run",
+    "concept": "Thread",
+    "operation": "query.thread",
+    "version": "0.1.0"
+  },
+  "request": {
+    "adapter": "newhope-membrane-query",
+    "adapter_version": "0.1.0",
+    "operation": "query.thread",
+    "query_id": "thread-query-dry-run-0001",
+    "dry_run": true,
+    "filter": {
+      "concept": "Thread",
+      "predicates": [
+        {"field": "participant_did", "op": "eq", "value": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"},
+        {"field": "fork_depth", "op": "lte", "value": 3}
+      ],
+      "limit": 10,
+      "cursor": null
+    },
+    "policy_context": {
+      "tenant": "commons",
+      "community": "news:world",
+      "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "provenance": {
+      "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "requester_kind": "agent",
+      "request_ts": "2026-04-01T00:00:00Z",
+      "purpose_code": "search",
+      "session_ref": null
+    }
+  },
+  "expected_route": {
+    "eligible": true,
+    "receptors": [
+      {
+        "receptor_id": "did:key:z6MkThreadQueryReceptor",
+        "receptor_kind": "ThreadQueryReceptor",
+        "membrane_gate": "did:key:z6MkDefaultMembraneGate",
+        "policy_match": true
+      }
+    ],
+    "denial_reasons": []
+  },
+  "expected_membrane_decision": {
+    "decision": "dry-run",
+    "rationale": "Dry-run evaluation only; no live data accessed.",
+    "redacted_fields": [],
+    "required_signatures": []
+  }
+}
