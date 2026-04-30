@@ -1,0 +1,125 @@
+{
+  "schema": "DryRunRoute",
+  "version": "0",
+  "description": "Response envelope returned by a newhope-membrane-query dry-run. Contains routing decision and policy evidence; no live data is included.",
+  "required": [
+    "adapter",
+    "query_id",
+    "dry_run",
+    "route",
+    "evidence",
+    "membrane_decision",
+    "ts"
+  ],
+  "fields": {
+    "adapter": {
+      "type": "string",
+      "const": "newhope-membrane-query"
+    },
+    "query_id": {
+      "type": "string",
+      "description": "Mirrors the query_id from the originating DryRunQuery."
+    },
+    "dry_run": {
+      "type": "boolean",
+      "const": true
+    },
+    "route": {
+      "type": "object",
+      "required": ["eligible", "receptors"],
+      "fields": {
+        "eligible": {
+          "type": "boolean",
+          "description": "true if at least one receptor matches and membrane policy allows the query."
+        },
+        "receptors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "receptor_id": {
+                "type": "string",
+                "pattern": "^did:"
+              },
+              "receptor_kind": {
+                "type": "string",
+                "description": "e.g. MessageQueryReceptor, ClaimQueryReceptor, MembraneAuditReceptor"
+              },
+              "membrane_gate": {
+                "type": "string",
+                "pattern": "^did:",
+                "description": "DID of the membrane enforcing access to this receptor."
+              },
+              "policy_match": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "denial_reasons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "code": {"type": "string"},
+              "detail": {"type": "string"}
+            }
+          },
+          "description": "Non-empty when eligible is false. At least one entry must explain the denial."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["policy_ref", "ruleset_ref"],
+      "fields": {
+        "policy_ref": {
+          "type": "string",
+          "pattern": "^hash://blake3/"
+        },
+        "ruleset_ref": {
+          "type": "string",
+          "pattern": "^hash://blake3/"
+        },
+        "matching_labels": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "provenance_chain": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Ordered list of content-addressed references tracing query provenance."
+        }
+      }
+    },
+    "membrane_decision": {
+      "type": "object",
+      "required": ["decision"],
+      "fields": {
+        "decision": {
+          "type": "string",
+          "enum": ["allow", "deny", "quarantine", "redact", "require-signature", "dry-run"]
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Human-readable or structured reason for the decision."
+        },
+        "redacted_fields": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Field names that would be redacted in a live query response."
+        },
+        "required_signatures": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "DIDs whose signatures would be required before live data is released."
+        }
+      }
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when this dry-run route was evaluated."
+    }
+  }
+}

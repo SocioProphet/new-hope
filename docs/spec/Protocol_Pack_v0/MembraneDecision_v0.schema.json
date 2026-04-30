@@ -1,0 +1,14 @@
+{
+  "protocol": "MembraneDecision",
+  "version": "0",
+  "fields": [
+    "decision",
+    "policy_ref",
+    "query_ref",
+    "rationale",
+    "redacted_fields",
+    "required_signatures",
+    "audit_trail"
+  ],
+  "notes": "Membrane enforcement decision record: allow/deny/quarantine/redact/require-signature with policy provenance."
+}

@@ -1,0 +1,57 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "DryRunQueryFixture",
+  "metadata": {
+    "name": "claim-query-dry-run",
+    "concept": "Claim",
+    "operation": "query.claim",
+    "version": "0.1.0"
+  },
+  "request": {
+    "adapter": "newhope-membrane-query",
+    "adapter_version": "0.1.0",
+    "operation": "query.claim",
+    "query_id": "claim-query-dry-run-0001",
+    "dry_run": true,
+    "filter": {
+      "concept": "Claim",
+      "predicates": [
+        {"field": "stance", "op": "eq", "value": "supports"},
+        {"field": "confidence_min", "op": "gte", "value": 0.7},
+        {"field": "scope", "op": "eq", "value": "factual"}
+      ],
+      "limit": 25,
+      "cursor": null
+    },
+    "policy_context": {
+      "tenant": "commons",
+      "community": "news:world",
+      "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "provenance": {
+      "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "requester_kind": "agent",
+      "request_ts": "2026-04-01T00:00:00Z",
+      "purpose_code": "ranking",
+      "session_ref": "lattice-session:abc123"
+    }
+  },
+  "expected_route": {
+    "eligible": true,
+    "receptors": [
+      {
+        "receptor_id": "did:key:z6MkClaimQueryReceptor",
+        "receptor_kind": "ClaimQueryReceptor",
+        "membrane_gate": "did:key:z6MkDefaultMembraneGate",
+        "policy_match": true
+      }
+    ],
+    "denial_reasons": []
+  },
+  "expected_membrane_decision": {
+    "decision": "dry-run",
+    "rationale": "Dry-run evaluation only; no live data accessed.",
+    "redacted_fields": [],
+    "required_signatures": []
+  }
+}

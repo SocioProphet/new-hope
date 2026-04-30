@@ -1,0 +1,57 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "DryRunQueryFixture",
+  "metadata": {
+    "name": "membrane-decision-query-dry-run",
+    "concept": "MembraneDecision",
+    "operation": "query.membrane_decision",
+    "version": "0.1.0"
+  },
+  "request": {
+    "adapter": "newhope-membrane-query",
+    "adapter_version": "0.1.0",
+    "operation": "query.membrane_decision",
+    "query_id": "memdec-query-dry-run-0001",
+    "dry_run": true,
+    "filter": {
+      "concept": "MembraneDecision",
+      "predicates": [
+        {"field": "decision", "op": "eq", "value": "deny"},
+        {"field": "policy_ref", "op": "eq", "value": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+        {"field": "ts_range", "op": "gte", "value": "2026-01-01T00:00:00Z"}
+      ],
+      "limit": 10,
+      "cursor": null
+    },
+    "policy_context": {
+      "tenant": "commons",
+      "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "provenance": {
+      "requester_id": "did:key:z6MkAuditorDid",
+      "requester_kind": "human",
+      "request_ts": "2026-04-01T00:00:00Z",
+      "purpose_code": "audit",
+      "session_ref": null
+    }
+  },
+  "expected_route": {
+    "eligible": true,
+    "receptors": [
+      {
+        "receptor_id": "did:key:z6MkMembraneAuditReceptor",
+        "receptor_kind": "MembraneAuditReceptor",
+        "membrane_gate": "did:key:z6MkAuditMembraneGate",
+        "policy_match": true
+      }
+    ],
+    "denial_reasons": []
+  },
+  "expected_membrane_decision": {
+    "decision": "dry-run",
+    "rationale": "Dry-run evaluation only; audit role verified. Results are always read-only.",
+    "redacted_fields": [],
+    "required_signatures": []
+  },
+  "notes": "query.membrane_decision is always read-only. The auditor DID (z6MkAuditorDid) must hold the audit role in the ruleset."
+}

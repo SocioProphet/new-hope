@@ -1,0 +1,57 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "DryRunQueryFixture",
+  "metadata": {
+    "name": "lens-query-dry-run",
+    "concept": "Lens",
+    "operation": "query.lens",
+    "version": "0.1.0"
+  },
+  "request": {
+    "adapter": "newhope-membrane-query",
+    "adapter_version": "0.1.0",
+    "operation": "query.lens",
+    "query_id": "lens-query-dry-run-0001",
+    "dry_run": true,
+    "filter": {
+      "concept": "Lens",
+      "predicates": [
+        {"field": "pipeline_id", "op": "eq", "value": "ranking-pipeline:news-v1"},
+        {"field": "input_ref", "op": "eq", "value": "hash://blake3/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}
+      ],
+      "limit": 5,
+      "cursor": null
+    },
+    "policy_context": {
+      "tenant": "commons",
+      "community": "news:world",
+      "ruleset_ref": "hash://blake3/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "provenance": {
+      "requester_id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "requester_kind": "agent",
+      "request_ts": "2026-04-01T00:00:00Z",
+      "purpose_code": "ranking",
+      "session_ref": "lattice-session:abc123"
+    }
+  },
+  "expected_route": {
+    "eligible": true,
+    "receptors": [
+      {
+        "receptor_id": "did:key:z6MkLensQueryReceptor",
+        "receptor_kind": "LensQueryReceptor",
+        "membrane_gate": "did:key:z6MkDefaultMembraneGate",
+        "policy_match": true
+      }
+    ],
+    "denial_reasons": []
+  },
+  "expected_membrane_decision": {
+    "decision": "dry-run",
+    "rationale": "Dry-run evaluation only; no live data accessed. Lens explainability carrier will be required for live execution.",
+    "redacted_fields": [],
+    "required_signatures": []
+  },
+  "notes": "A live query.lens response MUST have an explanation carrier available (see Conformance_Tests.md §5)."
+}

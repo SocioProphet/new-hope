@@ -12,3 +12,4 @@ Objects:
 - Entity
 - Lens
 - ModerationEvent
+- MembraneDecision

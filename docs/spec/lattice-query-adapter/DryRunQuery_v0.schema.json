@@ -1,0 +1,134 @@
+{
+  "schema": "DryRunQuery",
+  "version": "0",
+  "description": "Request envelope for a Lattice newhope-membrane-query dry-run operation. No live data is accessed; the adapter returns route and evidence only.",
+  "required": [
+    "adapter",
+    "adapter_version",
+    "operation",
+    "query_id",
+    "dry_run",
+    "filter",
+    "policy_context",
+    "provenance"
+  ],
+  "fields": {
+    "adapter": {
+      "type": "string",
+      "const": "newhope-membrane-query"
+    },
+    "adapter_version": {
+      "type": "string",
+      "example": "0.1.0"
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "query.message",
+        "query.thread",
+        "query.claim",
+        "query.citation",
+        "query.entity",
+        "query.lens",
+        "query.moderation_event",
+        "query.membrane_decision"
+      ]
+    },
+    "query_id": {
+      "type": "string",
+      "description": "UUID v4 or content-addressed identifier unique to this query invocation."
+    },
+    "dry_run": {
+      "type": "boolean",
+      "const": true,
+      "description": "MUST be true for this tranche. Live execution is not activated."
+    },
+    "filter": {
+      "type": "object",
+      "required": ["concept"],
+      "fields": {
+        "concept": {
+          "type": "string",
+          "enum": [
+            "Message",
+            "Thread",
+            "Claim",
+            "Citation",
+            "Entity",
+            "Lens",
+            "ModerationEvent",
+            "MembraneDecision"
+          ],
+          "description": "MUST match the concept implied by the operation field."
+        },
+        "predicates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "field": {"type": "string"},
+              "op": {"type": "string", "enum": ["eq", "neq", "lt", "lte", "gt", "gte", "in", "contains"]},
+              "value": {"type": "any"}
+            }
+          }
+        },
+        "limit": {
+          "type": "integer",
+          "default": 50,
+          "maximum": 500
+        },
+        "cursor": {
+          "type": "string",
+          "nullable": true
+        }
+      }
+    },
+    "policy_context": {
+      "type": "object",
+      "required": ["tenant", "ruleset_ref"],
+      "fields": {
+        "tenant": {
+          "type": "string",
+          "description": "commons|org:<id>|team:<id>"
+        },
+        "community": {
+          "type": "string",
+          "description": "news:<id>|topic:<id> — optional community scope."
+        },
+        "ruleset_ref": {
+          "type": "string",
+          "pattern": "^hash://blake3/",
+          "description": "Content-addressed reference to the active policy ruleset."
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["requester_id", "requester_kind", "request_ts", "purpose_code"],
+      "fields": {
+        "requester_id": {
+          "type": "string",
+          "pattern": "^did:",
+          "description": "DID of the Lattice agent or user initiating the query."
+        },
+        "requester_kind": {
+          "type": "string",
+          "enum": ["human", "agent", "service"]
+        },
+        "request_ts": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "purpose_code": {
+          "type": "string",
+          "enum": ["search", "ranking", "audit", "moderation", "federation"]
+        },
+        "session_ref": {
+          "type": "string",
+          "nullable": true,
+          "description": "Optional reference to the Lattice session or job that originated this query."
+        }
+      }
+    }
+  }
+}
