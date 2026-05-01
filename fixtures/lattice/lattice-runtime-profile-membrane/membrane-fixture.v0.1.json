@@ -1,0 +1,133 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "LatticeRuntimeProfileMembraneFixture",
+  "metadata": {
+    "name": "lattice-runtime-profile-membrane",
+    "version": "0.1.0",
+    "description": "New Hope semantic membrane decisions for Lattice notebook, Ray, and Beam RuntimeAsset profiles plus RuntimeProfileBinding records."
+  },
+  "refs": {
+    "slashTopicScopeRef": "slash-topic://lattice/data-governai/runtime-profiles",
+    "topicPackRef": "slash-topics://packs/lattice-data-governai@0.1.0",
+    "runtimeProfileTopicPackRef": "slash-topics://packs/lattice-data-governai/runtime-profiles@0.1.0",
+    "runtimeAliasRef": "slash-topics://runtime/membranes/lattice-data-governai-admission@0.1.0",
+    "compatibilityRef": "newhope://membranes/lattice-data-governai-admission@0.1.0",
+    "memoryProfileRef": "memory-mesh://profiles/slash-topic-scoped-lattice-data-governai@0.1.0",
+    "sherlockRuntimeFixtureRef": "SocioProphet/sherlock-search#32",
+    "slashRuntimeTopicRef": "SocioProphet/slash-topics#25",
+    "platformRuntimeCatalogRef": "SocioProphet/prophet-platform#306",
+    "agentplaneRuntimeRefsRef": "SocioProphet/agentplane#77",
+    "topologyRuntimeRef": "SocioProphet/sociosphere#240"
+  },
+  "surfaceModel": {
+    "publicSurface": "slash-topics",
+    "runtimeSubstrate": "new-hope",
+    "mustNotReplacePublicSurface": true,
+    "mustNotRedefineRuntimeAsset": true,
+    "mustNotRedefinePlatformAssetRecord": true,
+    "mustNotBypassPolicyFabric": true
+  },
+  "runtimeInputs": [
+    {
+      "assetId": "runtime-asset:prophet-python-ml:0.1.0",
+      "assetKind": "runtime-asset",
+      "runtimeClass": "notebook",
+      "topic": "/lattice/runtime/notebook",
+      "policyRef": "policy://runtime/prophet-python-ml-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:runtime-prophet-python-ml-demo",
+      "roles": ["NotebookSession", "QueryRun", "PublicationArtifact"]
+    },
+    {
+      "assetId": "runtime-asset:prophet-ray-ml:0.1.0",
+      "assetKind": "runtime-asset",
+      "runtimeClass": "ray",
+      "topic": "/lattice/runtime/ray",
+      "policyRef": "policy://runtime/prophet-ray-ml-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:runtime-prophet-ray-ml-demo",
+      "roles": ["ModelZooEntry", "ModelRuntimeProfile", "ModelEndpoint", "RayJobDryRunPlan", "RAGPipeline", "EvaluationBundle"]
+    },
+    {
+      "assetId": "runtime-asset:prophet-beam-dataops:0.1.0",
+      "assetKind": "runtime-asset",
+      "runtimeClass": "beam",
+      "topic": "/lattice/runtime/beam",
+      "policyRef": "policy://runtime/prophet-beam-dataops-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:runtime-prophet-beam-dataops-demo",
+      "roles": ["BeamPipelineDryRunPlan", "TrainingDatasetRecipe", "QualityProfile", "VectorIndex"]
+    },
+    {
+      "assetId": "runtime-profile-binding:lattice-data-governai:0.1.0",
+      "assetKind": "runtime-profile-binding",
+      "runtimeClass": "binding",
+      "topic": "/lattice/runtime/profile-binding",
+      "policyRef": "urn:srcos:policy:lattice-runtime-profile-bindings-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:lattice-runtime-profile-bindings-demo",
+      "roles": ["runtime-role-governance", "agent-execution-admission"]
+    }
+  ],
+  "membraneDecisions": [
+    {
+      "decisionId": "newhope:lattice:runtime:notebook:allow",
+      "assetRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "decision": "allow",
+      "action": "launch-notebook-runtime",
+      "rationale": "Notebook runtime is policy-gated, evidence-bearing, and scoped to notebook/query/publication reproduction roles.",
+      "policyRef": "policy://runtime/prophet-python-ml-demo",
+      "topicRef": "slash-topic://lattice/data-governai/runtime-profiles",
+      "evidenceRefs": ["urn:srcos:evidence:runtime-prophet-python-ml-demo"],
+      "egressControls": ["notebook-scope", "policy-gated-launch"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:runtime:ray:require-review",
+      "assetRef": "runtime-asset:prophet-ray-ml:0.1.0",
+      "decision": "require-review",
+      "action": "promote-ray-runtime",
+      "rationale": "Ray runtime is available for dry-run model/RAG execution but requires review before stable production promotion.",
+      "policyRef": "policy://runtime/prophet-ray-ml-demo",
+      "topicRef": "slash-topic://lattice/data-governai/runtime-profiles",
+      "evidenceRefs": ["urn:srcos:evidence:runtime-prophet-ray-ml-demo"],
+      "egressControls": ["approval-required", "dry-run-execution-only"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:runtime:beam:require-review",
+      "assetRef": "runtime-asset:prophet-beam-dataops:0.1.0",
+      "decision": "require-review",
+      "action": "promote-beam-runtime",
+      "rationale": "Beam runtime is available for dry-run data construction and quality workflows but requires review before stable production promotion.",
+      "policyRef": "policy://runtime/prophet-beam-dataops-demo",
+      "topicRef": "slash-topic://lattice/data-governai/runtime-profiles",
+      "evidenceRefs": ["urn:srcos:evidence:runtime-prophet-beam-dataops-demo"],
+      "egressControls": ["approval-required", "dry-run-execution-only"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:runtime-profile-binding:allow",
+      "assetRef": "runtime-profile-binding:lattice-data-governai:0.1.0",
+      "decision": "allow",
+      "action": "consume-runtime-profile-binding",
+      "rationale": "RuntimeProfileBinding preserves runtime asset refs and is required before AgentPlane execution routing.",
+      "policyRef": "urn:srcos:policy:lattice-runtime-profile-bindings-demo",
+      "topicRef": "slash-topic://lattice/data-governai/runtime-profiles",
+      "evidenceRefs": ["urn:srcos:evidence:lattice-runtime-profile-bindings-demo"],
+      "egressControls": ["runtime-ref-preservation-required"],
+      "redactedFields": []
+    }
+  ],
+  "requiredSequence": [
+    "slash-topic-scope",
+    "slash-topics-runtime-alias",
+    "runtime-profile-binding",
+    "newhope-compatibility-membrane",
+    "memory-mesh-profile",
+    "policy-fabric-decision",
+    "semantic-membrane-decision"
+  ],
+  "safety": {
+    "dryRunOnly": true,
+    "hostMutation": false,
+    "network": "none",
+    "secrets": "none"
+  }
+}
