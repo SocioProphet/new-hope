@@ -1,0 +1,27 @@
+name: lattice-data-governai-expanded-membrane
+
+on:
+  pull_request:
+    paths:
+      - "fixtures/lattice/lattice-data-governai-membrane/expanded-membrane-fixture.v0.1.json"
+      - "scripts/validate_lattice_data_governai_expanded_membrane.py"
+      - ".github/workflows/lattice-data-governai-expanded-membrane.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-expanded-lattice-data-governai-membrane:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate expanded Lattice Data/GovernAI membrane fixture
+        run: python scripts/validate_lattice_data_governai_expanded_membrane.py
