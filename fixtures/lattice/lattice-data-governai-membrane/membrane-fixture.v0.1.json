@@ -1,0 +1,116 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "LatticeDataGovernAIMembraneFixture",
+  "metadata": {
+    "name": "lattice-data-governai-membrane",
+    "version": "0.1.0",
+    "description": "New Hope semantic membrane decisions for Lattice Studio/Data/GovernAI PlatformAssetRecords."
+  },
+  "refs": {
+    "slashTopicScopeRef": "slash-topic://lattice/data-governai",
+    "topicPackRef": "slash-topics://packs/lattice-data-governai@0.1.0",
+    "runtimeAliasRef": "slash-topics://runtime/membranes/lattice-data-governai-admission@0.1.0",
+    "compatibilityRef": "newhope://membranes/lattice-data-governai-admission@0.1.0",
+    "memoryProfileRef": "memory-mesh://profiles/slash-topic-scoped-lattice-data-governai@0.1.0",
+    "sherlockFixtureRef": "SocioProphet/sherlock-search#30",
+    "policyFixtureRef": "SocioProphet/policy-fabric#39",
+    "topologyFixtureRef": "SocioProphet/sociosphere#238"
+  },
+  "surfaceModel": {
+    "publicSurface": "slash-topics",
+    "runtimeSubstrate": "new-hope",
+    "mustNotReplacePublicSurface": true,
+    "mustNotRedefinePlatformAssetRecord": true,
+    "mustNotBypassPolicyFabric": true
+  },
+  "assetInputs": [
+    {
+      "assetId": "urn:srcos:data-product:community_truth_demo",
+      "assetKind": "data-product",
+      "sourceKind": "DataProduct",
+      "topic": "/lattice/data-product",
+      "policyRef": "urn:srcos:policy:lattice-data-product-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_data_product",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:prov:community_truth_demo_ingest"],
+      "evaluationStatus": "not-required",
+      "publicationStatus": "not-published"
+    },
+    {
+      "assetId": "urn:srcos:evaluation-bundle:community_truth_demo_model_eval",
+      "assetKind": "evaluation-bundle",
+      "sourceKind": "EvaluationBundle",
+      "topic": "/lattice/governai/evaluation",
+      "policyRef": "urn:srcos:policy:model-eval-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_model_eval",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "not-published"
+    },
+    {
+      "assetId": "urn:srcos:publication-artifact:community_truth_demo_report",
+      "assetKind": "publication-artifact",
+      "sourceKind": "PublicationArtifact",
+      "topic": "/lattice/publication",
+      "policyRef": "urn:srcos:policy:publication-review-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_report",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "under-review"
+    }
+  ],
+  "membraneDecisions": [
+    {
+      "decisionId": "newhope:lattice:data-product-query:allow",
+      "assetRef": "urn:srcos:data-product:community_truth_demo",
+      "decision": "allow",
+      "action": "query",
+      "rationale": "DataProduct has policy, evidence, runtime, and lineage refs and is query-eligible through Slash Topics scope.",
+      "policyRef": "urn:srcos:policy:lattice-data-product-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_data_product"],
+      "egressControls": ["scoped-query-only"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:model-evaluation:review-required",
+      "assetRef": "urn:srcos:evaluation-bundle:community_truth_demo_model_eval",
+      "decision": "require-review",
+      "action": "promote-model",
+      "rationale": "EvaluationBundle verdict requires review and must route through Policy Fabric approval before promotion.",
+      "policyRef": "urn:srcos:policy:model-eval-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_model_eval"],
+      "egressControls": ["approval-required", "no-production-route"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:publication-export:deny",
+      "assetRef": "urn:srcos:publication-artifact:community_truth_demo_report",
+      "decision": "deny",
+      "action": "export-artifact",
+      "rationale": "PublicationArtifact is under review; export is denied until review acceptance and policy grant are present.",
+      "policyRef": "urn:srcos:policy:publication-review-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_report"],
+      "egressControls": ["blocked-export", "review-state-required"],
+      "redactedFields": ["reviewThreadDrafts"]
+    }
+  ],
+  "requiredSequence": [
+    "slash-topic-scope",
+    "slash-topics-runtime-alias",
+    "newhope-compatibility-membrane",
+    "memory-mesh-profile",
+    "policy-fabric-decision",
+    "semantic-membrane-decision"
+  ],
+  "safety": {
+    "dryRunOnly": true,
+    "hostMutation": false,
+    "network": "none",
+    "secrets": "none"
+  }
+}

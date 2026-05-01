@@ -1,0 +1,27 @@
+name: lattice-data-governai-membrane
+
+on:
+  pull_request:
+    paths:
+      - "fixtures/lattice/lattice-data-governai-membrane/**"
+      - "scripts/validate_lattice_data_governai_membrane.py"
+      - ".github/workflows/lattice-data-governai-membrane.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-lattice-data-governai-membrane:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Lattice Data/GovernAI membrane fixture
+        run: python scripts/validate_lattice_data_governai_membrane.py
