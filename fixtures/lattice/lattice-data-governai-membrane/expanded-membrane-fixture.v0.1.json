@@ -1,0 +1,160 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "LatticeDataGovernAIExpandedMembraneFixture",
+  "metadata": {
+    "name": "lattice-data-governai-expanded-membrane",
+    "version": "0.1.0",
+    "description": "Expanded New Hope semantic membrane decisions for later Lattice Studio/Data/GovernAI assets."
+  },
+  "refs": {
+    "slashTopicScopeRef": "slash-topic://lattice/data-governai",
+    "topicPackRef": "slash-topics://packs/lattice-data-governai@0.1.0",
+    "runtimeAliasRef": "slash-topics://runtime/membranes/lattice-data-governai-admission@0.1.0",
+    "compatibilityRef": "newhope://membranes/lattice-data-governai-admission@0.1.0",
+    "memoryProfileRef": "memory-mesh://profiles/slash-topic-scoped-lattice-data-governai@0.1.0",
+    "expandedSherlockFixtureRef": "SocioProphet/sherlock-search#31",
+    "expandedSlashTopicsRef": "SocioProphet/slash-topics#24",
+    "policyFixtureRef": "SocioProphet/policy-fabric#39",
+    "topologyFixtureRef": "SocioProphet/sociosphere#238"
+  },
+  "surfaceModel": {
+    "publicSurface": "slash-topics",
+    "runtimeSubstrate": "new-hope",
+    "mustNotReplacePublicSurface": true,
+    "mustNotRedefinePlatformAssetRecord": true,
+    "mustNotBypassPolicyFabric": true
+  },
+  "assetInputs": [
+    {
+      "assetId": "urn:srcos:model-zoo-entry:community_truth_demo_candidate",
+      "assetKind": "model-zoo-entry",
+      "topic": "/lattice/model-zoo/entry",
+      "policyRef": "urn:srcos:policy:model-eval-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_model_eval",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo", "urn:srcos:annotation-set:community_truth_demo_labels"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "not-published"
+    },
+    {
+      "assetId": "urn:srcos:rag-pipeline:community_truth_demo_grounded_answer",
+      "assetKind": "rag-pipeline",
+      "topic": "/lattice/rag-lab/pipeline",
+      "policyRef": "urn:srcos:policy:rag-community-truth-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_rag_pipeline",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo", "urn:srcos:retrieval-corpus:community_truth_demo"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "not-published"
+    },
+    {
+      "assetId": "urn:srcos:dataset:community_truth_demo_training",
+      "assetKind": "training-dataset",
+      "topic": "/lattice/training/dataset",
+      "policyRef": "urn:srcos:policy:training-dataset-community-truth-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_training_dataset",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo", "urn:srcos:annotation-set:community_truth_demo_labels"],
+      "evaluationStatus": "not-required",
+      "publicationStatus": "not-published"
+    },
+    {
+      "assetId": "urn:srcos:research-package:community_truth_demo_report",
+      "assetKind": "research-package",
+      "topic": "/lattice/publication/research-package",
+      "policyRef": "urn:srcos:policy:publication-review-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_report",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "under-review"
+    },
+    {
+      "assetId": "urn:srcos:trust-posture:lattice-data-governai-demo",
+      "assetKind": "trust-posture-summary",
+      "topic": "/lattice/trust/posture",
+      "policyRef": "urn:srcos:policy:lattice-trust-reputation-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence:community_truth_demo_data_product",
+      "runtimeRef": "runtime-asset:prophet-python-ml:0.1.0",
+      "dataLineageRefs": ["urn:srcos:data-product:community_truth_demo"],
+      "evaluationStatus": "needs-review",
+      "publicationStatus": "under-review"
+    }
+  ],
+  "membraneDecisions": [
+    {
+      "decisionId": "newhope:lattice:model-zoo-entry:review-required",
+      "assetRef": "urn:srcos:model-zoo-entry:community_truth_demo_candidate",
+      "decision": "require-review",
+      "action": "promote-model",
+      "rationale": "Model Zoo candidate has evaluation and factsheet refs but remains review-gated before production promotion.",
+      "policyRef": "urn:srcos:policy:model-eval-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_model_eval"],
+      "egressControls": ["approval-required", "no-production-route"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:rag-pipeline:review-required",
+      "assetRef": "urn:srcos:rag-pipeline:community_truth_demo_grounded_answer",
+      "decision": "require-review",
+      "action": "promote-prompt",
+      "rationale": "RAG pipeline has grounding evidence but citation coverage is warning-level and requires review.",
+      "policyRef": "urn:srcos:policy:rag-community-truth-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_grounding_eval"],
+      "egressControls": ["approval-required", "grounding-evidence-required"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:training-dataset:allow-scoped-training",
+      "assetRef": "urn:srcos:dataset:community_truth_demo_training",
+      "decision": "allow",
+      "action": "use-for-demo-training",
+      "rationale": "Training dataset preserves source DataProduct lineage, annotation refs, use policy, and evidence refs for demo training only.",
+      "policyRef": "urn:srcos:policy:training-dataset-community-truth-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_training_dataset"],
+      "egressControls": ["demo-training-only", "attribution-required"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:research-package:deny-export",
+      "assetRef": "urn:srcos:research-package:community_truth_demo_report",
+      "decision": "deny",
+      "action": "export-artifact",
+      "rationale": "Research package is under review and cannot be exported until review acceptance and policy grant are present.",
+      "policyRef": "urn:srcos:policy:publication-review-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_report"],
+      "egressControls": ["blocked-export", "review-state-required"],
+      "redactedFields": ["reviewThreadDrafts"]
+    },
+    {
+      "decisionId": "newhope:lattice:trust-posture:review-required",
+      "assetRef": "urn:srcos:trust-posture:lattice-data-governai-demo",
+      "decision": "require-review",
+      "action": "promote-trust-posture",
+      "rationale": "Trust posture summary is medium-risk and must be reviewed before promotion decisions consume it as authoritative.",
+      "policyRef": "urn:srcos:policy:lattice-trust-reputation-demo",
+      "topicRef": "slash-topic://lattice/data-governai",
+      "evidenceRefs": ["urn:srcos:evidence:community_truth_demo_data_product"],
+      "egressControls": ["approval-required", "not-authoritative-until-reviewed"],
+      "redactedFields": []
+    }
+  ],
+  "requiredSequence": [
+    "slash-topic-scope",
+    "slash-topics-runtime-alias",
+    "newhope-compatibility-membrane",
+    "memory-mesh-profile",
+    "policy-fabric-decision",
+    "semantic-membrane-decision"
+  ],
+  "safety": {
+    "dryRunOnly": true,
+    "hostMutation": false,
+    "network": "none",
+    "secrets": "none"
+  }
+}
