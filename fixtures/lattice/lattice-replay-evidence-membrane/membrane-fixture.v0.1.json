@@ -1,0 +1,75 @@
+{
+  "apiVersion": "newhope.socioprophet.dev/v0",
+  "kind": "LatticeReplayEvidenceMembraneFixture",
+  "metadata": {
+    "name": "lattice-replay-evidence-membrane",
+    "version": "0.1.0",
+    "description": "New Hope semantic membrane decisions for ReplayEvidenceBundle use in Lattice promotion and review paths."
+  },
+  "refs": {
+    "slashTopicScopeRef": "slash-topic://lattice/data-governai/replay-evidence",
+    "topicPackRef": "slash-topics://packs/lattice-data-governai/replay-evidence@0.1.0",
+    "compatibilityRef": "newhope://membranes/lattice-data-governai-admission@0.1.0",
+    "sherlockReplayEvidenceRef": "SocioProphet/sherlock-search#33",
+    "slashReplayEvidenceRef": "SocioProphet/slash-topics#26",
+    "mlopsReplayEvidenceRef": "SocioProphet/prophet-platform-fabric-mlops-ts-suite#35",
+    "demoReadinessTopologyRef": "SocioProphet/sociosphere#247"
+  },
+  "surfaceModel": {
+    "publicSurface": "slash-topics",
+    "runtimeSubstrate": "new-hope",
+    "mustNotReplacePublicSurface": true,
+    "mustNotRedefinePlatformAssetRecord": true,
+    "mustNotBypassPolicyFabric": true,
+    "mustPreserveReplayEvidenceRefs": true
+  },
+  "replayInputs": [
+    {
+      "assetRef": "urn:srcos:evidence-bundle:lattice-governed-execution-0001",
+      "assetKind": "replay-evidence-bundle",
+      "topic": "/lattice/mlops/replay-evidence-bundle",
+      "runtimeRefs": ["runtime-asset:prophet-ray-ml:0.1.0", "runtime-asset:prophet-beam-dataops:0.1.0"],
+      "artifactRefs": ["urn:srcos:artifact:community_truth_demo_ray_metrics", "urn:srcos:artifact:community_truth_demo_beam_quality", "urn:srcos:model:community_truth_demo_candidate"],
+      "lineageReceiptRefs": ["urn:srcos:lineage-receipt:ray-community-truth-demo-0001", "urn:srcos:lineage-receipt:beam-community-truth-demo-0001"],
+      "replayCommandRefs": ["/lattice mlops ray run community_truth_demo --runtime prophet-ray-ml --dry-run", "/lattice dataops beam run community_truth_demo --runtime prophet-beam-dataops --dry-run"],
+      "policyRef": "urn:srcos:policy:mlops-governed-execution-demo",
+      "evidenceCorrelationId": "urn:srcos:evidence-bundle:lattice-governed-execution-0001",
+      "safety": {"network": "none", "secrets": "none", "hostMutation": false}
+    }
+  ],
+  "membraneDecisions": [
+    {
+      "decisionId": "newhope:lattice:replay-evidence:allow-demo-review",
+      "assetRef": "urn:srcos:evidence-bundle:lattice-governed-execution-0001",
+      "decision": "allow",
+      "action": "use-replay-evidence-for-demo-review",
+      "rationale": "ReplayEvidenceBundle preserves runtime refs, lineage receipts, expected artifacts, replay commands, and fixture safety constraints for demo review.",
+      "policyRef": "urn:srcos:policy:mlops-governed-execution-demo",
+      "topicRef": "slash-topic://lattice/data-governai/replay-evidence",
+      "evidenceRefs": ["urn:srcos:evidence-bundle:lattice-governed-execution-0001"],
+      "egressControls": ["demo-review-only", "policy-fabric-required", "no-network", "no-secrets"],
+      "redactedFields": []
+    },
+    {
+      "decisionId": "newhope:lattice:replay-evidence:require-review-for-promotion",
+      "assetRef": "urn:srcos:evidence-bundle:lattice-governed-execution-0001",
+      "decision": "require-review",
+      "action": "use-replay-evidence-for-promotion",
+      "rationale": "ReplayEvidenceBundle can support promotion review but cannot make promotion authoritative without Policy Fabric decision and review approval.",
+      "policyRef": "urn:srcos:policy:mlops-governed-execution-demo",
+      "topicRef": "slash-topic://lattice/data-governai/replay-evidence",
+      "evidenceRefs": ["urn:srcos:evidence-bundle:lattice-governed-execution-0001"],
+      "egressControls": ["approval-required", "policy-fabric-required", "not-authoritative-until-reviewed"],
+      "redactedFields": []
+    }
+  ],
+  "requiredSequence": [
+    "slash-topic-scope",
+    "replay-evidence-topic-pack",
+    "sherlock-replay-evidence-index",
+    "newhope-compatibility-membrane",
+    "policy-fabric-decision",
+    "semantic-membrane-decision"
+  ],
+  "safety": {"dryRunOnly": true, "hostMutation": false, "network": "none", "secrets": "none"}
+}
