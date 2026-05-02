@@ -1,0 +1,27 @@
+name: lattice-replay-evidence-membrane
+
+on:
+  pull_request:
+    paths:
+      - "fixtures/lattice/lattice-replay-evidence-membrane/**"
+      - "scripts/validate_lattice_replay_evidence_membrane.py"
+      - ".github/workflows/lattice-replay-evidence-membrane.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-lattice-replay-evidence-membrane:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Lattice replay evidence membrane fixture
+        run: python scripts/validate_lattice_replay_evidence_membrane.py
