@@ -1,0 +1,34 @@
+{
+  "carrier_version": "1",
+  "protocol_ref": "hash://blake3/regis-embedding-card-v0",
+  "signal": {
+    "type": "EmbeddingCardEmitted",
+    "ts": "2026-05-04T18:33:00Z",
+    "id": "hash://blake3/signal-embedding-card-001",
+    "parents": ["hash://blake3/signal-twin-projection-feature-001"],
+    "thread_root": "hash://blake3/mission-thread-001",
+    "derived_from": ["tpf_proj_mission_fit_001_capability_claims_capability", "fa_projection_capability_001"]
+  },
+  "payload": {
+    "embedding_id": "emb_projection_capability_001",
+    "subject_id": "sub_example_001",
+    "embedding_family": "capability",
+    "vector_ref": {"storage_uri": "vector://regis/example/emb_projection_capability_001", "digest": "sha256:vector"},
+    "raw_vector_inline": false,
+    "promotion_state": "evidence_only"
+  },
+  "provenance": {
+    "emitter": {"kind": "agent", "id": "did:key:regis-embedding-card-writer"},
+    "signatures": [],
+    "inputs": ["hash://blake3/feature-assertion-001"],
+    "transforms": [
+      {"receptor_id": "did:key:new-hope-regis-carrierizer", "ts": "2026-05-04T18:33:01Z", "notes": "embedding card carrierized without raw vector inline"}
+    ]
+  },
+  "policy_context": {
+    "tenant": "commons",
+    "community": "workgraph:mission-fit",
+    "ruleset_ref": "hash://blake3/regis-embedding-policy-v0",
+    "labels": ["embedding_ref_only", "raw_vector_inline:false", "consent_scoped"]
+  }
+}
