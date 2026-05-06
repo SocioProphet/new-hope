@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.socioprophet.org/new-hope/regis/EmbeddingCardCarrier.json",
+  "title": "EmbeddingCardCarrier",
+  "type": "object",
+  "required": ["carrier_version", "protocol_ref", "signal", "payload", "provenance", "policy_context"],
+  "additionalProperties": true,
+  "properties": {
+    "carrier_version": {"type": "string"},
+    "protocol_ref": {"type": "string"},
+    "signal": {"type": "object", "required": ["type", "ts", "id", "parents", "thread_root", "derived_from"], "additionalProperties": true},
+    "payload": {"type": "object"},
+    "provenance": {"type": "object", "required": ["emitter", "inputs", "transforms"], "additionalProperties": true},
+    "policy_context": {"type": "object", "required": ["tenant", "community", "ruleset_ref", "labels"], "additionalProperties": true}
+  }
+}
