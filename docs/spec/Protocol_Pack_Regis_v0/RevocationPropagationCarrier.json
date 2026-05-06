@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.socioprophet.org/new-hope/regis/RevocationPropagationCarrier.json",
+  "title": "RevocationPropagationCarrier",
+  "type": "object",
+  "required": ["carrier_version", "protocol_ref", "signal", "payload", "provenance", "policy_context"],
+  "additionalProperties": true,
+  "properties": {
+    "carrier_version": {"type": "string"},
+    "protocol_ref": {"type": "string"},
+    "signal": {
+      "type": "object",
+      "required": ["type", "ts", "id", "parents", "thread_root", "derived_from"],
+      "additionalProperties": true,
+      "properties": {
+        "type": {"type": "string", "enum": ["RevocationPropagated"]},
+        "ts": {"type": "string"},
+        "id": {"type": "string"},
+        "parents": {"type": "array", "items": {"type": "string"}},
+        "thread_root": {"type": "string"},
+        "derived_from": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "payload": {"type": "object"},
+    "provenance": {"type": "object", "required": ["emitter", "inputs", "transforms"], "additionalProperties": true},
+    "policy_context": {"type": "object", "required": ["tenant", "community", "ruleset_ref", "labels"], "additionalProperties": true}
+  }
+}
