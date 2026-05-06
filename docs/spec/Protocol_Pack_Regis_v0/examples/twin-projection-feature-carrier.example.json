@@ -1,0 +1,36 @@
+{
+  "carrier_version": "1",
+  "protocol_ref": "hash://blake3/regis-twin-projection-feature-v0",
+  "signal": {
+    "type": "TwinProjectionFeatureExported",
+    "ts": "2026-05-04T18:32:00Z",
+    "id": "hash://blake3/signal-twin-projection-feature-001",
+    "parents": ["hash://blake3/projection-carrier-001"],
+    "thread_root": "hash://blake3/mission-thread-001",
+    "derived_from": ["proj_mission_fit_001", "pdl_projection_001", "tr_projection_001"]
+  },
+  "payload": {
+    "feature_id": "tpf_proj_mission_fit_001_capability_claims_capability",
+    "projection_id": "proj_mission_fit_001",
+    "twin_id": "hdt_example_001",
+    "subject_id": "sub_example_001",
+    "mission_id": "mission_agentic_data_platform_001",
+    "feature_family": "capability",
+    "feature_name": "capability_claims.capability",
+    "policy_state": "allowed"
+  },
+  "provenance": {
+    "emitter": {"kind": "agent", "id": "did:key:holographme-projection-exporter"},
+    "signatures": [],
+    "inputs": ["hash://blake3/projection-001", "hash://blake3/decision-log-001", "hash://blake3/receipt-001"],
+    "transforms": [
+      {"receptor_id": "did:key:regis-feature-assertion-builder", "ts": "2026-05-04T18:32:01Z", "notes": "projection feature exported under consent scope"}
+    ]
+  },
+  "policy_context": {
+    "tenant": "commons",
+    "community": "workgraph:mission-fit",
+    "ruleset_ref": "hash://blake3/regis-consent-scope-policy-v0",
+    "labels": ["consent_scoped", "human_twin_projection", "requires_revocation_propagation:true"]
+  }
+}
