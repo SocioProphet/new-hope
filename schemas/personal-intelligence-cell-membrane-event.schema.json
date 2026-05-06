@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://socioprophet.io/schemas/new-hope/personal-intelligence-cell-membrane-event.schema.json",
+  "title": "PersonalIntelligenceCellMembraneEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "carrierRef",
+    "receptorRef",
+    "membraneRef",
+    "membraneOutcome",
+    "policyDecision",
+    "message",
+    "lineage",
+    "emittedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "new-hope-cell-membrane.v0.1" },
+    "carrierRef": { "type": "string", "minLength": 1 },
+    "receptorRef": { "type": "string", "minLength": 1 },
+    "membraneRef": { "type": "string", "minLength": 1 },
+    "membraneOutcome": { "enum": ["admit", "reject", "quarantine", "hold"] },
+    "policyDecision": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["decision", "policy_ref", "decided_at"],
+      "properties": {
+        "decision": { "enum": ["allow", "deny", "quarantine", "review_required", "redact"] },
+        "policy_ref": { "type": "string", "minLength": 1 },
+        "decided_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["messageRef", "threadRef", "claimRefs", "citationRefs", "entityRefs", "title", "summary"],
+      "properties": {
+        "messageRef": { "type": "string", "minLength": 1 },
+        "threadRef": { "type": "string", "minLength": 1 },
+        "claimRefs": { "type": "array", "items": { "type": "string" } },
+        "citationRefs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "entityRefs": { "type": "array", "items": { "type": "string" } },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cellRef", "sourceRef", "signalRef", "feedItemRef", "evidenceRefs"],
+      "properties": {
+        "cellRef": { "type": "string", "minLength": 1 },
+        "sourceRef": { "type": "string", "minLength": 1 },
+        "signalRef": { "type": "string", "minLength": 1 },
+        "feedItemRef": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "emittedAt": { "type": "string", "minLength": 1 }
+  }
+}
