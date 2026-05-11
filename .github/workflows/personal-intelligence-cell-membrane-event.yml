@@ -1,0 +1,30 @@
+name: personal-intelligence-cell-membrane-event
+
+on:
+  pull_request:
+    paths:
+      - "schemas/personal-intelligence-cell-membrane-event.schema.json"
+      - "examples/personal-intelligence-cell/membrane-event.example.json"
+      - "scripts/validate_personal_intelligence_cell_membrane_event.py"
+      - "README.md"
+      - "docs/**"
+      - ".github/workflows/personal-intelligence-cell-membrane-event.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-personal-intelligence-cell-membrane-event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Personal Intelligence Cell membrane event
+        run: python3 scripts/validate_personal_intelligence_cell_membrane_event.py
